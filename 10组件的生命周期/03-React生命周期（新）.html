@@ -1,0 +1,76 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    class Count extends React.Component {
+        constructor() {
+            console.log('constructor');
+            super();
+            this.state = {
+                count: 0,
+            }
+        }
+
+        add = () => {
+            const { count } = this.state
+            this.setState({ count: count + 1 })
+        }
+        death = () => {
+            ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+        }
+        must = () => {
+            this.forceUpdate()
+        }
+
+        //从props获取派生的状态
+        //当组件中state完全取决于外部传来的props时，使用该钩子
+        // static getDerivedStateFromProps(props, state) {
+        //     console.log('getDerivedStateFromProps', props, state);
+        //     return { count: props.a }
+        // }
+
+        getSnapshotBeforeUpdate() {
+            console.log('getSnapshotBeforeUpdate');
+            return 'yzy'
+        }
+        componentDidUpdate(preProps, preState, snapshotValue) {
+            console.log('componentDidUpdate', preProps, preState, snapshotValue);
+        }
+        render() {
+            console.log('render');
+            const { count } = this.state
+            return (
+                <div>
+                    <h1 >当前求和为{count}</h1>
+                    <button onClick={this.add}>点击加1</button>
+                    <button onClick={this.death}>点击卸载组件</button>
+                    <button onClick={this.must}>不加不减，强制更新</button>
+                </div>
+            )
+        }
+
+    }
+
+    ReactDOM.render(<Count a={1} />, document.getElementById("test"))
+
+</script>
+
+</html>

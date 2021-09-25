@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+/*
+1.类中的构造器不是不需要写的，如果想给实例添加一些自己的多有的属性，那么就要写构造器：
+2.如果A类继承了B类，且A类中写了构造器，那么在A类的构造器中必须调用super
+3.类中的方法是放在类的原 //play 中的this是谁？ 如果 play 是通过 students 调用的，那么this是当前 students 的实例对象型对象上，供实例调用，如果是通过实例调用，那么方法中的this就是实例对象
+*/
+
+<script type="text/javascript">
+    class Person {
+        //构造方法
+        constructor(name, age) {
+            //构造器中的this是谁？当前的实例对象
+            this.name = name;
+            this.age = age;
+        }
+        //一般方法
+        //speak放在了哪里？------当前的原型对象上，供实例使用
+        //speak中的this是谁？ 如果speak是通过Person调用的，那么this是当前Person的实例对象
+        speak() { console.log(`我的名字是${this.name},我的年龄是${this.age}`); }
+    }
+    // let p1 = new Person('yyn', 18)
+    // console.log(p1);
+    // p1.speak();
+    // p1.speak.call(1);
+    //改变了this指向一个Number{1}对象，所以输出undefined
+
+
+    //定义一个 students 继承Person
+    class students extends Person {
+        constructor(name, age, hobby) {
+            // console.log(1);   super之前可以有代码，但不能有this之类
+            super(name, age)
+            this.hobby = hobby;
+        }
+        //重写从父类继承来的方法
+        speak() { console.log(`我的名字是${this.name},我的年龄是${this.age}，我爱${this.hobby}`) }
+        //play 放在了哪里？------当前的原型对象上，供实例使用
+
+        play() { console.log('我在玩 ', this); }
+    }
+    const s1 = new students('爷', 38, '打麻将')
+    console.log(s1);
+    s1.speak()
+    s1.play()
+</script>
+
+</html>

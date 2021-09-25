@@ -1,0 +1,59 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+
+<script type="text/babel">
+
+    class Weather extends React.Component {
+        //构造器调用几次？----1次
+        constructor(props) {
+            super(props)
+            this.state = { isHot: false }  //初始化状态
+
+            //给实例自身追加一个同名的changeWeather方法，这个方法是根据原型上的changeWeather用bind生成的，它的this没问题，指向实例对象，否则render里调用 this.changeWeather this 是undefinded
+            this.changeWeather = this.changeWeather.bind(this)
+        }
+        //render调用几次？-----1+n次，n是状态改变的次数
+        render() {
+            const { isHot } = this.state
+            //绑定事件注意点：
+            // 1.onClick的C要大写，和原生js不一样
+            // 2.要用花括号把函数括起来，不能用引号或当作字符串报错
+            // 3.括号咯函数后加（）表示直接运行返回结果，不会等你调用，不加才会由事件触发
+            return <h1 onClick={this.changeWeather}>今天天气很{isHot ? '炎热' : '凉爽'}</h1>
+        }
+        //程序员根据自己的业务逻辑定义的事件
+        /*
+        show 放在哪里？---Weather的原型对象上的，供实例使用
+        show 中的this是谁？ 此时的show函数，是作为点击事件的回调函数，根本就不是通过weather的实例调用的，
+                            而且类中的方法自动开启了严格模式，所以this是undefined
+        */
+        //程序员自己定义的业务逻辑调用几次？-----n次，n是你调用的次数
+        changeWeather() {
+            console.log('@', this);
+            //严重注意state不能直接修改，要用 setState 修改
+            // this.state.isHot = true;
+            const isHot = this.state.isHot;
+            this.setState({ isHot: !isHot });
+        }
+    }
+
+    ReactDOM.render(<Weather />, document.getElementById("test"))
+
+</script>
+
+</html>

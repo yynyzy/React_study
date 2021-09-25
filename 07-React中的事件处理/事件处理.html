@@ -1,0 +1,68 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+<style>
+    .container {
+        width: 400px;
+        height: 400px;
+        background-color: orange;
+    }
+
+    .child {
+        width: 200px;
+        height: 200px;
+        background-color: rgb(89, 117, 209);
+    }
+</style>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    class Demo extends React.Component {
+        /*
+        1.通过onXxx属性指定事件处理函数(注意大小写)
+            1).React使用的是自定义(合成)事件，而不是使用的原生DOM事件          -----为了更好的兼容性
+            2) React中的事件是通过事件委托方式处理的(委托给组件最外层的元素)     -----效率高    
+        2.通过event.target得到发生事件的DOM元素对象
+        */
+
+        render() {
+            return (
+                <div className="container" onClick={this.test}>
+                    <button onClick={this.show1}>按钮1</button>
+                    <button onClick={this.show2}>按钮2</button>
+                    <div className="child" onClick={this.show3}>xxx</div>
+                </div>
+            )
+        }
+        show1 = (event) => {
+            //react自定义的封装事件,这个event有着和原生一样的event事件
+            event.stopPropagation(); //阻止事件冒泡
+            console.log('按钮1', event);
+        }
+        show2 = () => {
+            console.log(event.target.innerText);
+        }
+        show3 = () => {
+            console.log('xxx');
+        }
+        test = () => {
+            console.log('test');
+        }
+    }
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+</script>
+
+</html>

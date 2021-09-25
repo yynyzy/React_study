@@ -1,0 +1,42 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    class Demo extends React.Component {
+        render() {
+            return (
+                <div>
+                    <input type="text" ref='input1' style={{ marginRight: '10px' }} />
+                    <button onClick={this.show}>点我显示左侧数据 </button>
+                    <input type="text" ref='input2' onBlur={this.show2} placeholder="失去焦点绑定数据" />
+                </div>
+            )
+        }
+        show = () => {
+            const { refs: { input1: { value: a } } } = this
+            console.log(a);
+        }
+        show2 = () => {
+            const { input2 } = this.refs
+            console.log(input2.value);
+        }
+    }
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+</script>
+
+</html>

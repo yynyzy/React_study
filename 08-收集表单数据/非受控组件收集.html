@@ -1,0 +1,45 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+    /*
+    非受控组件：表单中的数据在需要的时候，‘现用现取’（通过ref获取节点，进而获得value值）
+    */
+    class Login extends React.Component {
+        render() {
+            return (
+                <form onSubmit={this.handleLogin} >
+                    用户名：<input type="text" ref={c => this.userNameNode = c} />
+                    密码：<input type="password" ref={c => this.passwordNode = c} />
+                    <button>登录</button>
+                </form>
+            )
+        }
+        handleLogin = (event) => {
+            event.preventDefault();
+            const { userNameNode, passwordNode } = this
+            alert(`我的用户名是${userNameNode.value}，我的密码是${passwordNode.value}`);
+        }
+
+    }
+    ReactDOM.render(<Login />, document.getElementById('test'))
+</script>
+
+</html>

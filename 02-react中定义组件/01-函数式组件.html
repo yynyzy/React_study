@@ -1,0 +1,39 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .title {
+            background-color: red
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    //定义一个组件（函数式）
+    function Demo() {
+        console.log(this);//此处的this是undefinded,因为经过了babel的翻译，开启了严格模式
+        return <h2>我是一个函数式组件，适用于一个（简单）组件的定义</h2>
+    }
+    //渲染组件到页面
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+
+    /*
+    *  ReactDOM.render(<Demo />,...)  发生了什么？
+        1.react解析组件标签，寻找Demo组件的定义位置
+        2.react发现组件是函数定义的，随后react去调用Demo()函数，将返回的虚拟DOM渲染到页面
+    */
+</script>
+
+</html>

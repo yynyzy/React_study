@@ -1,0 +1,60 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+    /*
+        高阶函数： 如界一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数。
+                    1.若A函数,接收的参数是一个函数，那么A就可以称之为高阶函数。
+                    2.若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数。
+
+        函数的柯里化:   通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。
+*/
+
+    class Login extends React.Component {
+        state = {
+            username: '',
+            password: '',
+        }
+        render() {
+            return (
+                <form onSubmit={this.login} >
+                    用户名：<input type="text" onChange={this.save('username')} />
+                    密码：<input type="password" onChange={this.save('password')} />
+                    <button>登录</button>
+                </form>
+            )
+        }
+        save = (type) => {
+            return (event) => {
+                this.setState({ [type]: event.target.value })
+            }
+        }
+
+        // login = () => {
+        //     event.preventDefault()
+        //     const { username, password } = this.state
+        //     alert(`我的用户名是${username}，我的密码是${password}`);
+        // }
+
+    }
+    ReactDOM.render(<Login />, document.getElementById('test'))
+</script>
+
+</html>

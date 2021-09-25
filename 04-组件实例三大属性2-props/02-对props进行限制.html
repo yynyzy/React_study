@@ -1,0 +1,45 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script>
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+    //定义一个Person组件
+    class Person extends React.Component {
+        //设置传入的props的类型
+        static propTypes = {
+            name: PropTypes.string.isRequired,
+            sex: PropTypes.string,
+            age: PropTypes.number
+        }
+        //设置传入的props默认值
+        static defaultProps = {
+            age: 5
+        }
+        render() {
+            let { name, sex, age } = this.props
+            return (
+                <ul>
+                    <li>姓名:{name}</li>
+                    <li>性别:{sex}</li>
+                    <li>年龄:{age + 1}</li>
+                </ul>)
+
+        }
+    }
+    ReactDOM.render(<Person name='老刘' sex='男' age={88} />, document.getElementById('test'))
+</script>
+
+</html>

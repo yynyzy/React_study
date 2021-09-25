@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/babel">//此处必须写babel
+        //创建一个虚拟dom
+        const vDom = <h1>hello,React</h1> //一定不要加字符串
+
+        //将虚拟dom转化为真实dom，放入页面
+        ReactDOM.render(vDom, document.getElementById('test'))//这不是追加的函数。是替换的函数
+
+        /*
+        1.jsx是为了更方便的创建虚拟dom
+        2.jsx虚拟dom使用console.log输出是一个对象Object
+        3.真实dom输出需要打断点才能看。
+        4.虚拟dom比真实dom“轻”，属性少。
+        */
+    </script>
+</body>
+
+</html>

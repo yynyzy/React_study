@@ -1,0 +1,144 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    /*
+    1。初始化阶段:由ReactDOM.render()触发---初次渲染
+        1.constructor()
+        2.componentwillMount()
+        3.render()
+        4.componentDidMount()
+    2。更新阶段:由组件内部this.setSate()或父组件重新render触发
+        1.shouldComponentUpdate()
+        2.componentWillUpdate()
+        3.render()
+        4.componentDidUpdate()
+    3．卸载组件:由ReactDOM.unmountComponentAtNode()触发
+        1.componentwi1lUnmount()
+    */
+    class Count extends React.Component {
+        constructor() {
+            console.log('constructor');
+            super();
+            this.state = {
+                count: 0,
+            }
+        }
+
+        add = () => {
+            const { count } = this.state
+            this.setState({ count: count + 1 })
+        }
+        death = () => {
+            ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+        }
+        must = () => {
+            this.forceUpdate()
+        }
+        //组件将要挂载
+        componentWillMount = () => {
+            console.log('componentWillMount');
+        }
+        //组件挂载完毕,非常重要
+        /*
+        一般做初始化的事情：ajax请求，定时器，消息订阅
+        */
+        componentDidMount = () => {
+            console.log('componentDidMount');
+        }
+        //组件卸载前
+        /*
+     一般做收尾的事情：取消定时器，消息
+       */
+        componentWillUnmount = () => {
+            console.log('componentWillUnmount');
+        }
+        //控制组件是否更新（该钩子可以进行组件优化）
+        shouldComponentUpdate = () => {
+            console.log('shouldComponentUpdate');
+            return false;
+        }
+        //组件将要更新
+        componentWillUpdate = () => {
+            console.log('componentWillUpdate');
+        }
+        componentDidUpdate = () => {
+            console.log('componentDidUpdate');
+        }
+        //去挂载组件
+        render() {
+            console.log('render');
+            const { count } = this.state
+            return (
+                <div>
+                    <h1 >当前求和为{count}</h1>
+                    <button onClick={this.add}>点击加1</button>
+                    <button onClick={this.death}>点击卸载组件</button>
+                    <button onClick={this.must}>不加不减，强制更新</button>
+                </div>
+            )
+        }
+
+    }
+
+
+    class A extends React.Component {
+        state = { car: '宝马' }
+        changeCar = () => {
+            this.setState({ car: '兰博基尼' })
+        }
+        render() {
+            const { car } = this.state
+            return (
+                <div>
+                    <h3>我的车是：{car}</h3>
+                    <button onClick={this.changeCar}>换车</button>
+                    <B cargift={car} />
+                </div>
+            )
+        }
+    }
+
+    class B extends React.Component {
+        componentWillReceiveProps() {
+            console.log('componentWillReceiveProps');
+        }
+        shouldComponentUpdate = () => {
+            console.log('shouldComponentUpdate');
+            return true;
+        }
+        componentWillUpdate = () => {
+            console.log('componentWillUpdate');
+        }
+        componentDidUpdate = () => {
+            console.log('componentDidUpdate');
+        }
+        render() {
+            console.log('render');
+            return <div>我的生日礼物：{this.props.cargift}</div>
+        }
+    }
+
+    ReactDOM.render(<A />, document.getElementById("test"))
+
+</script>
+
+</html>

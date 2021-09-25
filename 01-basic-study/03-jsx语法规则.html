@@ -1,0 +1,54 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .title {
+            background-color: red
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+    const data = 'ReactHello'
+    const vDom = (
+        <div>
+            <h1 className="title" style={{ color: 'white', fontSize: '40px' }}>{data}</h1>
+            <span>123</span>
+            <input type="text" />
+            {/*<peiqi>一头猪</peiqi>*/}
+        </div>
+    )
+    ReactDOM.render(vDom, document.getElementById('test'))
+    /*
+    规则：
+    1.创建虚拟DOM不要带引号
+    2.标签要用js表达式，要使用花括号
+    3.标签中要使用样式的类名： className
+    4.标签中的内联样式要使用：style={{ color: 'white' }}，注意属性名转为驼峰的写法，
+        属性值使用引号为一个字符串，外层花 括号表示里面使用js语法，内层花括号表示是个对象
+    5.只能有一个根标签，如果要多个并列标签，使用div包起来
+    6.标签必须闭合，单标签自闭和
+    7.关于标签首字母：
+    1.若首字母小写，
+        那么react就会去寻找与之同名的html标签，
+        找到转化为HTML同名元素，
+        找不到报错
+    2.若首字母大写，
+        那么react就会去寻找与之同名的组件，
+        找到使用组件，
+        找不到报错
+    */
+</script>
+
+</html>

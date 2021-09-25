@@ -1,0 +1,53 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+
+<body>
+    <div id="test"></div>
+    <div id="test2"></div>
+</body>
+<script type="text/babel">
+    //定义一个Person组件
+    class Person extends React.Component {
+        render() {
+            let { name, sex, age } = this.props
+            // this.props.age = 99 //该行代码会报错,因为props对象中的属性是只读的
+            age = 99
+            return (
+                <ul>
+                    <li>姓名:{name}</li>
+                    <li>性别:{sex}</li>
+                    <li>年龄:{age}</li>
+                </ul>)
+
+        }
+
+    }
+    ReactDOM.render(<Person name="Tom" sex="男" age="18" />, document.getElementById("test"))
+
+
+    //模拟一个服务器返回一个人的数据
+    const p1 = {
+        name: '强哥', sex: '女', age: 19
+    }
+    //分别传递标签属性
+    ReactDOM.render(<Person name={p1.name} sex={p1.sex} age={p1.age} />, document.getElementById('test2'))
+
+    //批量传递标签属性
+    //在jsx中使用展开运算可以展开对象，但仅仅适用于展开标签属性
+    ReactDOM.render(<Person {...p1} />, document.getElementById('test2'))
+
+
+</script>
+
+</html>

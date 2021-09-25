@@ -1,0 +1,78 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state的基本使用</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js"></script> -->
+</head>
+<style>
+    .list {
+        height: 350px;
+        width: 200px;
+        background-color: rgb(110, 183, 224);
+        overflow: auto;
+    }
+
+    .item {
+        box-sizing: border-box;
+        height: 70px;
+        width: 100%;
+        background-color: rgb(218, 247, 113);
+        border: 1px solid rgb(92, 88, 88);
+    }
+</style>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    class News extends React.Component {
+        state = { newsArr: [] }
+
+        componentDidMount() {
+            const timer = setInterval(() => {
+                const { newsArr } = this.state
+                const n = '新闻' + (newsArr.length + 1)
+                this.setState({
+                    newsArr: [n, ...newsArr]
+                })
+            }, 1000)
+        }
+        componentWillUnmount() {
+            clearInterval(this.timer)
+        }
+        getSnapshotBeforeUpdate() {
+            const { list1 } = this
+            return list1.scrollHeight
+        }
+        componentDidUpdate(_, __, SnapshotValue) {
+            const { list1 } = this
+            list1.scrollTop += list1.scrollHeight - SnapshotValue
+        }
+
+
+        render() {
+            let { newsArr } = this.state
+            return (
+                <div className='list' ref={c => { this.list1 = c }}>
+                    {newsArr.map((item, i) => {
+                        return <div className='item' key={i}>{item}</div>
+                    })}
+                </div>
+            )
+        }
+
+    }
+
+    ReactDOM.render(<News />, document.getElementById("test"))
+
+</script>
+
+</html>
