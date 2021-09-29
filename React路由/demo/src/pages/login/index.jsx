@@ -5,12 +5,27 @@ export default class Login extends Component {
     state = {
         'phone': '',
         'code': '',
+        time: 10,
+        canClicks: true,
     }
     back = () => {
-        console.log(1);
+        console.log(0);
     }
     getYzm = () => {
-        console.log(2);
+        const { canClicks, time, phone } = this.state
+        // if (!canClicks) return
+        // if (!phone) return
+        this.setState({ canClicks: false })
+        let timer = setInterval(() => {
+            const { time } = this.state
+            console.log(time);
+            this.setState({ time: time - 1 })
+            if (time <= 0) {
+                clearInterval(timer)
+                this.setState({ time: 10, canClicks: true })
+            }
+        }, 1000)
+
     }
     login = () => {
         const { phone, code } = this.state;
@@ -28,6 +43,7 @@ export default class Login extends Component {
     }
 
     render() {
+        const { canClicks, time } = this.state
         return (
             <div>
                 <NavBar style={{
@@ -47,7 +63,7 @@ export default class Login extends Component {
                             prefixWidth: '6em',
                         }}
                     >
-                        <List.Item prefix='短信验证码' extra={<a onClick={this.getYzm}>发送验证码</a>}>
+                        <List.Item prefix='短信验证码' extra={<a disabled={canClicks ? false : true} onClick={this.getYzm}>{canClicks ? '发送验证码' : `${time}`}</a>}>
                             <Input onChange={this.saveData('code')} placeholder='请输入验证码' clearable />
                         </List.Item>
 

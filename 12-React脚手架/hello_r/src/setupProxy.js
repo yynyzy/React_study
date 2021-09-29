@@ -1,4 +1,4 @@
-const createProxyMiddleware = require('http-proxy-middleware'); //可以把 createProxyMiddleware 写成proxy，名字无关
+const createProxyMiddleware = require('http-proxy-middleware'); //可以把 createProxyMiddleware 写成proxy/devserver，名字无关
 
 module.export = function (app) {
     app.use(
