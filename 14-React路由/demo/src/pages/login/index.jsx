@@ -13,12 +13,11 @@ export default class Login extends Component {
     }
     getYzm = () => {
         const { canClicks, time, phone } = this.state
-        // if (!canClicks) return
-        // if (!phone) return
+        if (!canClicks) return
+        if (!phone) return
         this.setState({ canClicks: false })
         let timer = setInterval(() => {
             const { time } = this.state
-            console.log(time);
             this.setState({ time: time - 1 })
             if (time <= 0) {
                 clearInterval(timer)
@@ -32,7 +31,7 @@ export default class Login extends Component {
         console.log('login', phone, 'code', code);
         if (!phone) return alert('请输入手机号')
         if (!code) return alert('请输入验证码')
-
+        this.props.history.push('/user')
     }
     saveData = (type) => {
         return (value) => {

@@ -36,7 +36,7 @@ class Count extends Component {
     render() {
         return (
             <div>
-                <div>{this.props.sum}</div>
+                <div>{this.props.sum},下面的总人数为{this.props.person}</div>
                 <select ref={this.numval} >
                     <option value="1">1</option>&nbsp;
                     <option value="2">2</option>&nbsp;
@@ -50,7 +50,6 @@ class Count extends Component {
         )
     }
 }
-
 
 //mapStateToProps 函数返回值必须是一个对象
 //返回的这个函数的 key 就是传递给UI组件的props的 key
@@ -87,6 +86,9 @@ const mapDispatchToProps =
 
 export default connect(
     //映射状态
-    state => ({ sum: state }),
+    state => ({
+        sum: state.count,
+        person: state.person.length
+    }),
     //映射操作状态的方法
     mapDispatchToProps)(Count)

@@ -31,9 +31,13 @@
         }
         //组件类中程序员定义的事件回调必须使用赋值语句+箭头函数，避免了this为undefined的问题，不用赋值形式会开启严格模式丢失this
         changeWeather = () => {
-            console.log('@', this);
             const isHot = this.state.isHot;
             this.setState({ isHot: !isHot });
+        }
+        //setState可以使用函数式
+        changeWeather = () => {
+
+            this.setState((state, props) => ({ isHot: !state.isHot }));
         }
     }
 

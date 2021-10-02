@@ -1,0 +1,45 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .title {
+            background-color: red
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    function Count() {
+        const container = React.useRef()
+        const [sum, setSum] = React.useState(0)
+        function add() {
+            setSum(sum => sum + 3)
+        }
+        function change() {
+            console.log(container.current.value);
+        }
+        return (
+            <div>
+                <h2>当前求和为:{sum}</h2>
+                <button onClick={add}>点我+3</button>
+                <input type="text" ref={container} onChange={change} />
+            </div >
+        )
+    }
+    ReactDOM.render(<Count />, document.getElementById('test'))
+
+</script>
+
+</html>

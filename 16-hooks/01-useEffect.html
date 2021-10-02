@@ -1,0 +1,63 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+    <!-- 核心库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.14.0/umd/react.development.js"></script>
+    <!-- 操作dom -->
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- 用于将jsx转化为es5 -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .title {
+            background-color: red
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+</body>
+<script type="text/babel">
+
+    function Count() {
+        // count函数调用的次数是:1+n
+        const [sum, setSum] = React.useState(0)
+        const [person, setName] = React.useState({ name: '老刘', age: '18' })
+
+        function add() {
+            // setSum(sum + 3)
+            setSum(sum => sum + 3)
+        }
+        function change() {
+            setName(person => ({ name: 'yyn', age: person.age }))
+            console.log(person);
+        }
+        function death() {
+            ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+        }
+        React.useEffect(() => {
+            const timer = setInterval(() => {
+                setSum(sum => sum + 3)
+            }, 1000)
+            return () => {
+                clearInterval(timer)
+            }
+        }, [])
+        return (
+            <div>
+                <h2>当前求和为:{sum}</h2>
+                <h2>名字{person.name}-{person.age}</h2>
+                <button onClick={add}>点我+3</button>
+                <button onClick={change}>点我改名字</button>
+                <button onClick={death}>点我卸载组件</button>
+            </div >
+        )
+    }
+
+    ReactDOM.render(<Count />, document.getElementById('test'))
+
+</script>
+
+</html>
