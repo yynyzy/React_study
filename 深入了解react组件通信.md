@@ -76,9 +76,27 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
     注册路由(声明接收): <Route path="/demo/test/:name/:age" component={Test}/>
     接收参数:          const {id,title} = this.props.match.params
 
+## 11.search参数
+    路由链接(携带参数):  <Link to='/demo/test?name=tom&age=18'}>详情</Link>
+    注册路由(无需声明，正常注册即可):<Route path="/demo/test" component={Test}/>
+    接收参数:         this.props.location.search 
+    
+    备注:获取到的 search 是 urlencoded 编码字符串，需要借助 querystring 解析(脚手架已经帮你下载好了直接引用 import qs from querystring)
 
+## 12.state参数
+    路由链接(携带参数):
+<Link to={{pathname:'/demo/test', state:{name:'tom', age:18} }}> 详情 </Link>
+    注册路由(无需声明，正常注册即可):<Route path="/demo/test" component={Test}/>
+    接收参数:        this.props.location.state
+    备注:当前页面（标签页）刷新也可以保留住参数
 
-
+## 13.编程式路由导航
+    借助 this.prosp.history 对象上的API对操作路由跳转、前进、后退
+    -this.prosp.history.push()
+    -this.prosp.history.replace()
+    -this.prosp.history.goBack()
+    -this.prosp.history.goForward()
+    -this.prosp.history.go()
 
 
 # 深入了解react组件通信
