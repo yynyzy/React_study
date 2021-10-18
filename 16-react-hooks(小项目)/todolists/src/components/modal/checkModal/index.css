@@ -1,0 +1,18 @@
+.topic{
+    font-size: 16px;
+    
+}
+.btnModal{
+    width: 100%;
+    background-color: blue;
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    color: rgb(253, 251, 251);
+    font-size: 16px;
+    font-weight: 900;
+}
+.content-topic{
+    text-overflow: ellipsis;
+    max-height: 50px;
+}

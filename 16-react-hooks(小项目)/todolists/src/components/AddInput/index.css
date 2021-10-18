@@ -1,0 +1,13 @@
+.addInpit_wrapper {
+    width: 100%;background-color: rgb(165, 158, 158);
+    height: 30px;
+    display: flex;
+}
+input {
+    width: 100%;
+}
+.btn-primary{
+    background-color: rgb(98, 124, 241);
+    color: rgb(247, 245, 245);
+   width: 50px
+}

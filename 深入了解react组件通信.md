@@ -1,4 +1,4 @@
-# React路由
+# 1.React路由
     //是H5的HistoryApi提供的路由
     const history = History.createHashHistory
     //是哈希路由，优点：兼容性好，不会造成页面刷新
@@ -12,10 +12,20 @@
 <Route path= ' /xxxx'component={Demo}/>
     4.<App>的最外侧包裹了一个<BrowserRouter>或<HashRouter>
 
-## 2. BrowserRouter 和 HashRouter
-HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
+## 2. BrowserRouter 和 HashRouter的区别
+1.底层原理不一样:
+    BrowserRouter使用的是H5的history API不兼容IE9及以下版本。
+    HashRouter使用的是URL的哈希值。
+2.ur1表现形式不一样
+    BrowserRouter的路径中没有#,例如: localhost: 30e0/demo/test
+    HashRouter的路径包含#,例如: 1ocalhost:3000/# / demo/test
+3.刷新后对路由state参数的影响
+    (1).BrowserRouter没有任何影响，因为state保存在history对象中。
+    (2).HashRouter刷新后会导致路由state参数的丢失。！！！！！！！！！！！！！！！
+4.备注: HashRouter可以用于解决一些路径错误相关的问题。
 
-## 3、路由组件与一般组件
+
+## 3.路由组件与一般组件
     1.写法不同:
         一般组件: <Demo/ >
         路由组件: <Route path=" /demo" component={Demo}/>
@@ -83,7 +93,7 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
     
     备注:获取到的 search 是 urlencoded 编码字符串，需要借助 querystring 解析(脚手架已经帮你下载好了直接引用 import qs from querystring)
 
-## 12.state参数
+## 12.state参数（url中不会显示state信息，安全）
     路由链接(携带参数):
 <Link to={{pathname:'/demo/test', state:{name:'tom', age:18} }}> 详情 </Link>
     注册路由(无需声明，正常注册即可):<Route path="/demo/test" component={Test}/>
@@ -98,31 +108,39 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
     -this.prosp.history.goForward()
     -this.prosp.history.go()
 
+## 14.
 
-# 深入了解react组件通信
+
+# 2.深入了解react组件及通信
 ## 1.setState
     深入setState
     一、setstate()更新状态的动作是异步还是同步的?----要看setstate的执行位置
         (1)．在由react所控制的回调中更新的动作是【异步】的:生命周期勾子、react事件监听回调
         (2)．在非react控制的异步回调中更新的动作是【同步】的:定时器回调、原生事件回调
+    
     二、setState的两种写法:
     (1)．对象式写法: setstate( statechange，[callback])
         1.statechange为状态改变对象(该对象可以体现出状态的更改)
         2.callback是可选的回调函数，它在状态更新完毕、界面也更新后(render调用后)才被调用
     (2)．函数式写法:setstate(updater，[callback])
+    
+    //例子：this.setstate((state,props)=>{count:state.count++})
+    
         1.updater为返回statechange对象的函数。
         2.updater可以接收到state和props。
         3.callback是可选的回调函数，它在状态更新、界面也更新后(render调用后)才被调用。
 总结:
-    1.对象式的settate是函数式的setstate的简写方式(语法糖)2.使用原则:
+    1.对象式的settate是函数式的setstate的简写方式(语法糖)
+    2.使用原则:
         (1).如果新状态不依赖于原状态===>使用对象方式
         (2).如果新状态依赖于原状态=-==>使用函数方式
         (3).如果需要在setstate()执行后获取最新的状态数据，要在第二个callback函数中读取。
 
 ## 2.React路由组件懒加载
-    //1.通过React的lazy函数配合import()函数动态加载路由组件===>路由组件代码会被分开打包const Login = lazy(()=>import( 'xxx /xxxx/test ' ))
+    //1.通过React的lazy函数配合 import()函数动态加载路由组件 ===> 路由组件代码会被分开打包
+const Login = lazy(()=>import('xxx/xxxx/test'))
     //2.通过<Suspense>指定在加载得到路由打包文件前显示一个自定义loading
-    
+
 <Suspense fallback={<h1>loading...</h1>}>
     <Switch>
         <Route path=" /xxx" component={Xxxx}/><Redirect to="/ login" />
@@ -134,16 +152,21 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
             发ajax请求数据获取设置订阅/启动定时器
     (3)．语法和说明:
         useEffect(() =>{
-                //在此可以执行任何带副作用操作return () => { //在组件卸载前执行
-                //在此做一些收尾工作，比如清除定时器/取消订阅等
-        }，[stateValue])//如果指定的是[]，回调函数只会在第一次render()后执行
+                //在此可以执行任何带副作用操作，模拟 DidMount() DidUpdate()生命周期钩子
+                return () => {}  //如果return一个函数，表示 componentwillUnmount()钩子
+        }，[stateValue])   //如果指定的是空数组[]，回调函数只会在第一次 render() 后执行
     (4)．可以把useEffect Hook看做如下三个函数的组合
             componentDidMount()
             componentDidUpdate()
             componentwillUnmount()
 
 
-## 5.Context理解
+## 5.Ref Hook
+(1). Ref Hook可以在函数组件中存储,查找组件内的标签或任意其它数据
+(2)．语法: const refContainer = useRef()
+(3)．作用:保存标签对象,功能与React.createRef()一样
+
+## 6.Context理解(常用于[祖][后]组件通信)
     一种组件间通信方式,常用于【祖组件】与【后代组件】间通信使用
     1)）创建Context容器对象:
         const xxxContext = React.createContext()
@@ -152,12 +175,12 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
         <Provider value = { 数据 }>
                 <子组件>
         </Provider>
-
+    
     3)后代组件读取数据:
     //如果不写在一个页面中，记得引入从祖组件中暴露 xxxContext 然后在要用的后代组件中引入 
         //第一种方式:仅适用于类组件
         static contextType = xxxContext     //声明接收context 
-        const {...} = this.context                        //读取context中的value数据
+        const {...} = this.context          //读取context中的value数据
     
         //第二种方式:函数组件与类组件都可以
         //在引入的 xxxContext 中解构 Consumer
@@ -169,7 +192,98 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
             }
         </Consumer>
 
-## 6.组件通信方式总结
+
+
+
+
+
+
+
+## 7.组件优化 PureComponent
+component的2个问题
+    1.只要执行 setState(),即使不改变状态数据,组件也会重新render()  ==>效率低
+    2.只当前组件重新 render()就会自动重新render子组件，纵使子组件没有用到父组件的任何数据 ==>
+效率低效率高的做法
+    只有当组件的state或props数据发生改变时才重新render()
+原因
+    Component中的shouldComponentUpdate()总是返回true解决
+办法1:
+    重写shouldComponentUpdate()方法
+    比较新旧state或props数据，如果有变化才返回true，如果没有返回fa1se
+办法2∶
+    使用PureComponent
+    PureComponent重写了shouldComponentUpdate()，只有state或props数据有变化才返回true
+注意:
+    只是进行state和props数据的浅比较，如果只是数据对象内部数据变了，返回fa1se
+    不要直接修改state数据，而是要产生新数据项目中一般使用PureComponent来优化
+
+## 8.render props
+如何向组件内部动态传入带内容的结构(标签)?
+    vue中:
+    使用slot技术，也就是通过组件标签体传入结构
+        <A>
+            <B/>
+        </A>
+    React中:
+    使用children props:通过组件标签体传入结构
+    使用render props:通过组件标签属性传入结构,而且可以携带数据，一般用render函数属性
+
+在 main 组件中，A是B的父组件，但实际上B没有在A中定义，而是直接在这里写
+<A>
+    <B>XXXX</B>
+</A>
+{this.props.children}
+
+问题:
+如果B组件需要A组件内的数据，做不到
+将 main 组件写成以下样子，通过在 A 中返回一个 render函数渲染C组件并且传递data
+```
+<A render= {(data)=> <C data={data}></C> }>  </A>
+```
+```
+在A组件中: render（）{
+	return (<div>
+				<div>这是A组件</div>
+				{this.props.render(data)}
+			</div>
+	)
+}
+```
+```
+c组件:读取A组件传入的数据显示 
+			<div>
+				<div>这是C组件</div>
+				{this.props.data}
+			</div>
+```
+
+## 9.错误边界
+理解:
+    错误边界(Error boundary):用来捕获后代组件错误，渲染出备用页面
+
+特点:
+    只能捕获后代组件生命周期产生的错误，不能捕获自己组件产生的错误和其他组件在合成事件、定时器中产生的错误
+
+使用方式:
+    getDerivedStateFromError 配合 componentDidCatch
+
+```
+//生命周期函数，一旦后台组件报错，就会触发
+static getDerivedstateFromError (error) {
+    conso1e.log(error );
+    // 在render之前触发
+    // 返回新的state
+    return {
+        hasError : true
+    };
+}
+componentDidCatch(error, info) {
+    //统计页面的错误。发送请求发送到后台去
+    console.log(error , info);
+}
+```
+
+## 10.组件通信方式总结
     组件间的关系:
             父子组件
             兄弟组件|(非嵌套组件)
@@ -188,3 +302,41 @@ HashRouter地址后面会带一个#，#后面的资源不会发送给服务器
             兄弟组件:消息订阅-发布、集中式管理
             祖孙组件(跨级组件):消息订阅-发布、集中式管理、conText(开发用的少，封装插件用的多)
 
+# 100.React面试题
+
+```
+class Example extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      val: 0
+    };
+  }
+  
+  componentDidMount() {
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 1 次 log
+
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 2 次 log
+
+    setTimeout(() => {
+      this.setState({val: this.state.val + 1});
+      console.log(this.state.val);  // 第 3 次 log
+
+      this.setState({val: this.state.val + 1});
+      console.log(this.state.val);  // 第 4 次 log
+    }, 0);
+  }
+
+  render() {
+    return null;
+  }
+};
+
+//答案：
+1、第一次和第二次都是在 react 自身生命周期内，触发时 isBatchingUpdates 为 true，所以并不会直接执行更新 state，而是加入了 dirtyComponents，所以打印时获取的都是更新前的状态 0。
+2、两次 setState 时，获取到 this.state.val 都是 0，所以执行时都是将 0 设置成 1，在 react 内部会被合并掉，只执行一次。设置完成后 state.val 值为 1。
+3、setTimeout 中的代码，触发时 isBatchingUpdates 为 false，所以能够直接进行更新，所以连着输出 2，3。
+输出： 0 0 2 3
+```

@@ -1,0 +1,21 @@
+.modal{
+    background-color: white;
+    width: 200px; height:200px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgb(160, 158, 158);
+   
+}
+.title{
+    width: 100%; 
+    background-color: blue;   
+    text-align: center;
+    color: white;
+}
+.wrapper-content{
+    margin-left: 10px;
+    margin-right: 10px;
+
+}

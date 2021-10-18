@@ -1,0 +1,39 @@
+li{
+    background-color: rgb(103, 233, 238);
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.checkBox{
+    position: absolute;
+    left: 0;
+    height: 20px;
+    width: 20px;
+}
+.Content{
+    border: 1px solid rgb(148, 143, 143);
+    border-radius:5px;
+    margin-left: 25px;
+    width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: #fff;
+}
+.btns{
+    position: absolute;
+    right: 0;
+}
+.primary{
+    color: rgb(250, 246, 246);
+background-color: blue
+}
+.warning{
+    color: rgb(250, 246, 246);
+background-color:yellow;
+}
+.danger{
+    color: rgb(250, 246, 246);
+background-color: red;
+}

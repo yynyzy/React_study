@@ -1,0 +1,20 @@
+.header{
+    height: 50px;
+    background-color: rgb(106, 106, 240);
+    width: 100%;
+   display: flex;   
+   justify-content: center;
+   align-items: center;
+}
+.header h1{
+    font-size: 20px ;
+    font-weight: 900px;
+    color: rgb(250, 240, 240);
+}
+.header .icon {
+    position: absolute;
+    right: 10px;
+    height: 20px;
+    font-size: 20px ;
+    color: rgb(248, 239, 239);
+}
